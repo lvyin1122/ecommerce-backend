@@ -12,7 +12,6 @@ exports.create = (req, res) => {
   const cart = {
     userId: req.body.userId,
     productId: req.body.productId,
-    quantity: req.body.quantity,
   };
 
   Cart.create(cart)
@@ -132,11 +131,31 @@ exports.findAllByProductId = (req, res) => {
     });
 };
 
-exports.findAllByUserIdAndProductId = (req, res) => {
+exports.getTotalByUserId = (req, res) => {
+  const userId = req.params.userId;
+
+  Cart.findAll({
+    where: { userId: userId },
+  })
+    .then((data) => {
+      let total = 0;
+      for (let i = 0; i < data.length; i++) {
+        total += data[i].product.price;
+      }
+      res.send({ total: total });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error retrieving Cart with userId=" + userId,
+      });
+    });
+}
+
+exports.findOneByUserIdAndProductId = (req, res) => {
   const userId = req.params.userId;
   const productId = req.params.productId;
 
-  Cart.findAll({
+  Cart.findOne({
     where: { userId: userId, productId: productId },
   })
     .then((data) => {
@@ -144,11 +163,27 @@ exports.findAllByUserIdAndProductId = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message:
-          "Error retrieving Cart with userId=" +
-          userId +
-          " and productId=" +
-          productId,
+        message: "Error retrieving Cart with userId=" + userId + " and productId=" + productId,
       });
     });
-};
+}
+
+exports.checkout = (req, res) => {
+  const userId = req.params.userId;
+
+  Cart.findAll({
+    where: { userId: userId },
+  })
+    .then((data) => {
+      let total = 0;
+      for (let i = 0; i < data.length; i++) {
+        total += data[i].product.price;
+      }
+      res.send({ total: total });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: "Error retrieving Cart with userId=" + userId,
+      });
+    });
+}

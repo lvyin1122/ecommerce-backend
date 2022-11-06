@@ -4,7 +4,7 @@ const Product = models.products;
 exports.create = (req, res) => {
   if (
     !req.body.name ||
-    !req.body.description ||
+    !req.body.author ||
     !req.body.price ||
     !req.body.image
   ) {
@@ -16,7 +16,7 @@ exports.create = (req, res) => {
 
   const product = {
     name: req.body.name,
-    description: req.body.description,
+    author: req.body.author,
     price: req.body.price,
     image: req.body.image,
   };
@@ -31,6 +31,25 @@ exports.create = (req, res) => {
       });
     });
 };
+
+exports.bulkCreate = (req, res) => {
+  if (!req.body.products) {
+    res.status(400).send({
+      message: "The request is empty.",
+    });
+    return;
+  }
+
+  Product.bulkCreate(req.body.products)
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Error",
+      });
+    });
+}
 
 exports.delete = (req, res) => {
   const id = req.params.id;

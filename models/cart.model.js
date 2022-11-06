@@ -8,9 +8,6 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER,
         primaryKey: true,
       },
-      quantity: {
-        type: Sequelize.INTEGER,
-      },
     });
   
     return Cart;

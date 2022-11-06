@@ -1,3 +1,5 @@
+const verifyToken = require("../middlewares/verifyToken.js");
+
 module.exports = (app) => {
     const carts = require("../controllers/cart.controller.js");
   
@@ -9,7 +11,7 @@ module.exports = (app) => {
   
     router.delete("/:id", carts.delete);
   
-    router.get("/", carts.findAll);
+    router.get("/", verifyToken, carts.findAll);
   
     router.get("/:id", carts.findOne);
 
@@ -18,6 +20,9 @@ module.exports = (app) => {
     router.get("/user/:userId/total", carts.getTotalByUserId);
 
     router.get("/user/:userId/:productId", carts.findOneByUserIdAndProductId);
+
+    router.post("/checkout/:userId", carts.checkout);
   
     app.use("/api/carts", router);
+
   }

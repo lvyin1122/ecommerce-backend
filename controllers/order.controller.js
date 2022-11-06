@@ -1,4 +1,4 @@
-const models = require("./models");
+const models = require("../models");
 const Order = models.orders;
 
 exports.create = (req, res) => {
@@ -105,7 +105,7 @@ exports.findOne = (req, res) => {
     });
 }
 
-exports.findByUserId = (req, res) => {
+exports.findAllByUserId = (req, res) => {
   const userId = req.params.userId;
 
   Order.findAll({ where: { userId: userId } })

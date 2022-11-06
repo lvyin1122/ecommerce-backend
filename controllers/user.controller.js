@@ -100,7 +100,7 @@ exports.findOne = (req, res) => {
     });
 };
 
-exports.findByUsername = (req, res) => {
+exports.findOneByUsername = (req, res) => {
   const username = req.params.username;
 
   User.findOne({ where: { username: username } })

@@ -5,6 +5,8 @@ module.exports = (app) => {
 
   router.post("/", products.create);
 
+  router.post("/bulk", products.bulkCreate);
+
   router.put("/:id", products.update);
 
   router.delete("/:id", products.delete);
