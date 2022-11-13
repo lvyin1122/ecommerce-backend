@@ -8,15 +8,9 @@ module.exports = (sequelize, Sequelize) => {
       userId: {
         type: Sequelize.INTEGER,
       },
-      date: {
-        type: Sequelize.DATE,
-      },
       status: {
         type: Sequelize.ENUM,
-        values: ["pending", "shipped", "delivered"],
-      },
-      address: {
-        type: Sequelize.STRING,
+        values: ["pending", "delivered", "cancelled"],
       },
       total: {
         type: Sequelize.FLOAT,

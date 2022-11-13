@@ -12,12 +12,8 @@ module.exports = (app) => {
     router.delete("/:id", carts.delete);
   
     router.get("/", verifyToken, carts.findAll);
-  
-    router.get("/:id", carts.findOne);
 
     router.get("/user/:userId", carts.findAllByUserId);
-
-    router.get("/user/:userId/total", carts.getTotalByUserId);
 
     router.get("/user/:userId/:productId", carts.findOneByUserIdAndProductId);
 

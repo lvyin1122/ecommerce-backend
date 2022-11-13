@@ -8,6 +8,14 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.INTEGER,
         primaryKey: true,
       },
+      price: {
+        type: Sequelize.FLOAT,
+        allowNull: false,
+      },
+      orderId: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
     });
   
     return Cart;

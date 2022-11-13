@@ -12,6 +12,7 @@ exports.create = (req, res) => {
   const cart = {
     userId: req.body.userId,
     productId: req.body.productId,
+    orderId: req.body.orderId,
   };
 
   Cart.create(cart)
@@ -85,20 +86,6 @@ exports.findAll = (req, res) => {
     });
 };
 
-exports.findOne = (req, res) => {
-  const id = req.params.id;
-
-  Cart.findByPk(id)
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "Error retrieving Cart with id=" + id,
-      });
-    });
-};
-
 exports.findAllByUserId = (req, res) => {
   const userId = req.params.userId;
 
@@ -131,26 +118,6 @@ exports.findAllByProductId = (req, res) => {
     });
 };
 
-exports.getTotalByUserId = (req, res) => {
-  const userId = req.params.userId;
-
-  Cart.findAll({
-    where: { userId: userId },
-  })
-    .then((data) => {
-      let total = 0;
-      for (let i = 0; i < data.length; i++) {
-        total += data[i].product.price;
-      }
-      res.send({ total: total });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "Error retrieving Cart with userId=" + userId,
-      });
-    });
-}
-
 exports.findOneByUserIdAndProductId = (req, res) => {
   const userId = req.params.userId;
   const productId = req.params.productId;
@@ -163,27 +130,44 @@ exports.findOneByUserIdAndProductId = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving Cart with userId=" + userId + " and productId=" + productId,
+        message:
+          "Error retrieving Cart with userId=" +
+          userId +
+          " and productId=" +
+          productId,
       });
     });
-}
+};
 
 exports.checkout = (req, res) => {
   const userId = req.params.userId;
 
   Cart.findAll({
-    where: { userId: userId },
+    where: { userId: userId, orderId: null },
   })
     .then((data) => {
       let total = 0;
       for (let i = 0; i < data.length; i++) {
-        total += data[i].product.price;
+        total += data[i].price;
       }
-      res.send({ total: total });
+        Order.create({
+          userId: userId,
+          status: "pending",
+          total: total,
+        })
+        .then((data) => {
+          res.send(data);
+        })
+        .catch((err) => {
+          res.status(500).send({
+            message: err.message || "Checkout failed.",
+          });
+        }
+      );
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error retrieving Cart with userId=" + userId,
+        message: err.message || "Checkout failed.",
       });
     });
-}
+};
