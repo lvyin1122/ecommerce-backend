@@ -1,8 +1,8 @@
 const models = require("../models");
 const User = models.users;
-const config = require("../config/auth.config");
+const JWT_SECRET = process.env.JWT_SECRET;
 
-var jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 exports.register = (req, res) => {
   if (!req.body.username || !req.body.email || !req.body.password) {
@@ -48,7 +48,7 @@ exports.login = (req, res) => {
         return res.status(404).send({ message: "User Not found." });
       }
       if (data.password == user.password) {
-        var token = jwt.sign({ id: data.id }, config.SECRET, {
+        var token = jwt.sign({ id: data.id }, JWT_SECRET, {
           expiresIn: 86400, // expires in 24 hours
         });
         res.status(200).send({
@@ -69,5 +69,5 @@ exports.login = (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  res.status(200).send({ auth: false, token: null });
+  res.status(200).send({ token: null });
 };

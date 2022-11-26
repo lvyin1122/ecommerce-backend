@@ -7,6 +7,8 @@ models.sequelize.sync();
 const app = express();
 const port = 8800;
 
+require("dotenv").config();
+
 app.use(express.json());
 app.use(cors());
 
