@@ -1,24 +1,18 @@
-const verifyToken = require("../middlewares/verifyToken.js");
+const express = require("express");
+const router = express.Router();
 
-module.exports = (app) => {
-    const carts = require("../controllers/cart.controller.js");
-  
-    var router = require("express").Router();
-  
-    router.post("/", carts.create);
-  
-    router.put("/:id", carts.update);
-  
-    router.delete("/:id", carts.delete);
-  
-    router.get("/", verifyToken, carts.findAll);
+const carts = require("../controllers/cart.controller.js");
 
-    router.get("/user/:userId", carts.findAllByUserId);
+router.post("/", carts.create);
 
-    router.get("/user/:userId/:productId", carts.findOneByUserIdAndProductId);
+router.put("/:id", carts.update);
 
-    router.post("/checkout/:userId", carts.checkout);
-  
-    app.use("/api/carts", router);
+router.delete("/:id", carts.delete);
 
-  }
+router.get("/", carts.findAll);
+
+router.get("/user/:userId", carts.findAllByUserId);
+
+router.get("/user/:userId/:productId", carts.findOneByUserIdAndProductId);
+
+module.exports = router;

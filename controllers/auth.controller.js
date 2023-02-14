@@ -4,7 +4,7 @@ const models = require("../models");
 const User = models.user;
 
 // Login
-exports.login = (req, res) => {
+exports.login = async (req, res) => {
   if (!req.body.email || !req.body.password) {
     res.status(400).send({
       message: "The request is empty.",

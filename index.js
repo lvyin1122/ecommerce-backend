@@ -1,24 +1,29 @@
 const express = require("express");
 const cors = require("cors");
-
-const models = require("./models");
-models.sequelize.sync();
+const dotenv = require("dotenv");
+dotenv.config();
 
 const app = express();
 const port = 8800;
 
-require("dotenv").config();
+const models = require("./models");
+models.sequelize.sync();
 
 app.use(express.json());
 app.use(cors());
 
-require("./routes/product.routes")(app);
-require("./routes/user.routes")(app);
-require("./routes/order.routes")(app);
-require("./routes/cart.routes")(app);
-require("./routes/auth.routes")(app);
-require("./routes/payment.routes")(app);
+const productsRoutes = require("./routes/product.routes");
+const usersRoutes = require("./routes/user.routes");
+const cartsRoutes = require("./routes/cart.routes");
+const ordersRoutes = require("./routes/order.routes");
+const authRoutes = require("./routes/auth.routes");
+const paymentRoutes = require("./routes/payment.routes");
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}.`);
-});
+app.use("/products", productsRoutes);
+app.use("/users", usersRoutes);
+app.use("/carts", cartsRoutes);
+app.use("/orders", ordersRoutes);
+app.use("/auth", authRoutes);
+app.use("/payment", paymentRoutes);
+
+app.listen(port);

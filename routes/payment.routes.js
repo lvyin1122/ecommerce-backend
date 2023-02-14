@@ -1,10 +1,10 @@
-module.exports = (app) => {
-    const payment = require("../controllers/payment.controller.js");
-    const verifyToken = require("../middlewares/verifyToken.js");
+const express = require("express");
+const router = express.Router();
 
-    var router = require("express").Router();
+const payment = require("../controllers/payment.controller.js");
 
-    router.post("/", verifyToken, payment.create);
+const verifyToken = require("../middlewares/verifyToken.js");
 
-    app.use("/api/payment", router);
-}
+router.post("/", verifyToken, payment.create);
+
+module.exports = router;

@@ -1,19 +1,18 @@
-module.exports = (app) => {
-  const orders = require("../controllers/order.controller.js");
+const express = require("express");
+const router = express.Router();
 
-  var router = require("express").Router();
+const orders = require("../controllers/order.controller.js");
 
-  router.post("/", orders.create);
+router.post("/", orders.create);
 
-  router.put("/:id", orders.update);
+router.put("/:id", orders.update);
 
-  router.delete("/:id", orders.delete);
+router.delete("/:id", orders.delete);
 
-  router.get("/", orders.findAll);
+router.get("/", orders.findAll);
 
-  router.get("/:id", orders.findOne);
+router.get("/:id", orders.findOne);
 
-  router.get("/user/:userId", orders.findAllByUserId);
+router.get("/user/:userId", orders.findAllByUserId);
 
-  app.use("/api/orders", router);
-}
+module.exports = router;

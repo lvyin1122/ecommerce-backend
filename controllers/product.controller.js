@@ -1,6 +1,7 @@
 const models = require("../models");
-const Product = models.product;
+const Product = models.products;
 
+// Create a new product
 exports.create = (req, res) => {
   if (
     !req.body.name ||
@@ -32,6 +33,7 @@ exports.create = (req, res) => {
     });
 };
 
+// Create multiple products
 exports.bulkCreate = (req, res) => {
   if (!req.body.products) {
     res.status(400).send({
@@ -51,6 +53,7 @@ exports.bulkCreate = (req, res) => {
     });
 }
 
+// Delete a product with the id
 exports.delete = (req, res) => {
   const id = req.params.id;
 
@@ -75,6 +78,7 @@ exports.delete = (req, res) => {
     });
 };
 
+// Update a product info with the id
 exports.update = (req, res) => {
   const id = req.params.id;
 
@@ -99,6 +103,7 @@ exports.update = (req, res) => {
     });
 };
 
+// Retrieve all the product data
 exports.findAll = (req, res) => {
   Product.findAll()
     .then((data) => {
@@ -111,6 +116,7 @@ exports.findAll = (req, res) => {
     });
 };
 
+// Get info of one product with the id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
