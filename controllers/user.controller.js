@@ -1,5 +1,5 @@
 const models = require("../models");
-const User = models.users;
+const User = models.user;
 
 exports.create = (req, res) => {
   if (!req.body.username || !req.body.email || !req.body.password) {

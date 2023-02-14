@@ -9,12 +9,11 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 
 const models = {};
 
-models.Sequelize = Sequelize;
 models.sequelize = sequelize;
 
-models.products = require("./product.model.js")(sequelize, Sequelize);
-models.carts = require("./cart.model.js")(sequelize, Sequelize);
-models.users = require("./user.model.js")(sequelize, Sequelize);
-models.orders = require("./order.model.js")(sequelize, Sequelize);
+models.product = require("./product.model.js")(sequelize);
+models.cart = require("./cart.model.js")(sequelize);
+models.user = require("./user.model.js")(sequelize);
+models.order = require("./order.model.js")(sequelize);
 
 module.exports = models;

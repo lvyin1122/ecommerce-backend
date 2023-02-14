@@ -1,34 +1,9 @@
-const models = require("../models");
-const User = models.users;
-const JWT_SECRET = process.env.JWT_SECRET;
-
 const jwt = require("jsonwebtoken");
+const JWT_SECRET = process.env.JWT_SECRET;
+const models = require("../models");
+const User = models.user;
 
-exports.register = (req, res) => {
-  if (!req.body.username || !req.body.email || !req.body.password) {
-    res.status(400).send({
-      message: "The request is empty.",
-    });
-    return;
-  }
-
-  const user = {
-    username: req.body.username,
-    email: req.body.email,
-    password: req.body.password,
-  };
-
-  User.create(user)
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Error",
-      });
-    });
-};
-
+// Login
 exports.login = (req, res) => {
   if (!req.body.email || !req.body.password) {
     res.status(400).send({
@@ -68,6 +43,7 @@ exports.login = (req, res) => {
     });
 };
 
+// Logout
 exports.logout = (req, res) => {
   res.status(200).send({ token: null });
 };

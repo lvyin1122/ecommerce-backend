@@ -1,5 +1,5 @@
 const models = require("../models");
-const Cart = models.carts;
+const Cart = models.cart;
 
 exports.create = (req, res) => {
   if (!req.body.userId) {

@@ -1,5 +1,5 @@
 const models = require("../models");
-const Product = models.products;
+const Product = models.product;
 
 exports.create = (req, res) => {
   if (

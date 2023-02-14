@@ -1,19 +1,21 @@
-module.exports = (sequelize, Sequelize) => {
+const { DataTypes } = require("sequelize");
+
+module.exports = (sequelize) => {
     const Order = sequelize.define("order", {
       id: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
       userId: {
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
       },
       status: {
-        type: Sequelize.ENUM,
+        type: DataTypes.ENUM,
         values: ["pending", "delivered", "cancelled"],
       },
       total: {
-        type: Sequelize.FLOAT,
+        type: DataTypes.FLOAT,
       },
     });
   

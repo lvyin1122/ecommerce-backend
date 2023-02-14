@@ -1,5 +1,5 @@
 const models = require("../models");
-const Order = models.orders;
+const Order = models.order;
 
 exports.create = (req, res) => {
   if (!req.body.userId) {

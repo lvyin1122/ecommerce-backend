@@ -1,21 +1,23 @@
-module.exports = (sequelize, Sequelize) => {
+const { DataTypes } = require("sequelize");
+
+module.exports = (sequelize) => {
   const Product = sequelize.define("product", {
     id: {
-      type: Sequelize.INTEGER,
+      type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
     name: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
     },
     author: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
     },
     price: {
-      type: Sequelize.FLOAT,
+      type: DataTypes.FLOAT,
     },
     image: {
-      type: Sequelize.STRING,
+      type: DataTypes.STRING,
     },
   });
 
