@@ -5,6 +5,7 @@ const secret = process.env.STRIPE_SECRET_KEY;
 const stripe = require("stripe")(secret);
 
 exports.create = (req, res) => {
+  // Create a charge
   stripe.charges.create(
     {
       // Stripe API perceive amount as the smallest currency unit

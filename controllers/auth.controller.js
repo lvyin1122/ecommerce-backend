@@ -17,30 +17,23 @@ exports.login = async (req, res) => {
     password: req.body.password,
   };
 
-  User.findOne({ where: { email: user.email } })
-    .then((data) => {
-      if (!data) {
-        return res.status(404).send({ message: "User Not found." });
-      }
-      if (data.password == user.password) {
-        var token = jwt.sign({ id: data.id }, JWT_SECRET, {
-          expiresIn: 86400, // expires in 24 hours
-        });
-        res.status(200).send({
-          token: token,
-          username: data.username,
-          userId: data.id,
-          message: "User was logged in successfully!",
-        });
-      } else {
-        res.status(401).send({ message: "Invalid Password!" });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Error",
-      });
+  const data = await User.findOne({ where: { email: user.email } });
+  if (!data) {
+    return res.status(404).send({ message: "User Not found." });
+  }
+  if (data.password == user.password) {
+    var token = jwt.sign({ id: data.id }, JWT_SECRET, {
+      expiresIn: 86400, // expires in 24 hours
     });
+    res.status(200).send({
+      token: token,
+      username: data.username,
+      userId: data.id,
+      message: "User was logged in successfully!",
+    });
+  } else {
+    res.status(401).send({ message: "Invalid Password!" });
+  }
 };
 
 // Logout

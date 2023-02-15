@@ -1,7 +1,7 @@
 const models = require("../models");
 const User = models.user;
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
   if (!req.body.username || !req.body.email || !req.body.password) {
     res.status(400).send({
       message: "The request is empty.",
@@ -15,101 +15,97 @@ exports.create = (req, res) => {
     password: req.body.password,
   };
 
-  User.create(user)
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Error",
-      });
+  try {
+    const data = await User.create(user);
+    res.send(data);
+  } catch (err) {
+    res.status(500).send({
+      message: err.message || "Error",
     });
+  }
 };
 
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.id;
 
-  User.destroy({
-    where: { id: id },
-  })
-    .then((num) => {
-      if (num == 1) {
-        res.send({
-          message: "User was deleted successfully!",
-        });
-      } else {
-        res.send({
-          message: `Cannot delete User with id=${id}. Maybe User was not found!`,
-        });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "Could not delete User with id=" + id,
-      });
+  try {
+    const num = await User.destroy({
+      where: { id: id },
     });
+
+    if (num == 1) {
+      res.send({
+        message: "User was deleted successfully!",
+      });
+    } else {
+      res.send({
+        message: `Cannot delete User with id=${id}. Maybe User was not found!`,
+      });
+    }
+  } catch (err) {
+    res.status(500).send({
+      message: "Could not delete User with id=" + id,
+    });
+  }
 };
 
-exports.update = (req, res) => {
+exports.update = async (req, res) => {
   const id = req.params.id;
 
-  User.update(req.body, {
-    where: { id: id },
-  })
-    .then((num) => {
-      if (num == 1) {
-        res.send({
-          message: "User was updated successfully.",
-        });
-      } else {
-        res.send({
-          message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`,
-        });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "Error updating User with id=" + id,
-      });
+  try {
+    const num = await User.update(req.body, {
+      where: { id: id },
     });
+
+    if (num == 1) {
+      res.send({
+        message: "User was updated successfully.",
+      });
+    } else {
+      res.send({
+        message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`,
+      });
+    }
+  } catch {
+    res.status(500).send({
+      message: "Error updating User with id=" + id,
+    });
+  }
 };
 
-exports.findAll = (req, res) => {
-  User.findAll()
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: err.message || "Error",
-      });
+exports.findAll = async (req, res) => {
+  try {
+    const data = await User.findAll();
+    res.send(data);
+  } catch (err) {
+    res.status(500).send({
+      message: err.message || "Error",
     });
+  }
 };
 
-exports.findOne = (req, res) => {
+exports.findOne = async (req, res) => {
   const id = req.params.id;
 
-  User.findByPk(id)
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "Error retrieving User with id=" + id,
-      });
+  try {
+    const data = await User.findByPk(id);
+    res.send(data);
+  } catch (err) {
+    res.status(500).send({
+      message: "Error retrieving User with id=" + id,
     });
+  }
 };
 
-exports.findOneByUsername = (req, res) => {
+exports.findOneByUsername = async (req, res) => {
   const username = req.params.username;
 
-  User.findOne({ where: { username: username } })
-    .then((data) => {
-      res.send(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "Error retrieving User with username=" + username,
-      });
+  try {
+    const data = await User.findOne({ where: { username: username } });
+    res.send(data);
+  } catch (err) {
+    res.status(500).send({
+      message: "Error retrieving User with username=" + username,
     });
+  }
 };
