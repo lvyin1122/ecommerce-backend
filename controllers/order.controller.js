@@ -78,10 +78,9 @@ exports.update = async (req, res) => {
 
 exports.findAll = async (req, res) => {
   const userId = req.query.userId;
-  const condition = userId ? { userId: { [Op.like]: `%${userId}%` } } : null;
 
   try {
-    const data = await Order.findAll({ where: condition });
+    const data = await Order.findAll({ where: { userId: userId } });
     res.send(data);
   } catch (err) {
     res.status(500).send({
