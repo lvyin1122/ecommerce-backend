@@ -77,14 +77,12 @@ exports.update = async (req, res) => {
 };
 
 exports.findAll = async (req, res) => {
-  const userId = req.query.userId;
-
   try {
-    const data = await Order.findAll({ where: { userId: userId } });
+    const data = await Order.findAll();
     res.send(data);
   } catch (err) {
     res.status(500).send({
-      message: err.message || "Error",
+      message: err.message || "Error retrieving Orders.",
     });
   }
 };
